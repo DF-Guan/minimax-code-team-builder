@@ -93,9 +93,7 @@ Copy-Item -Recurse -Force .\minimax-code-team-builder\minimax-code-team-builder 
 
 ![MiniMax Code 的「全部 Agent」面板，团队已就位](docs/agents-panel.png)
 
-*MiniMax Code 的「全部 Agent」面板。红框里是一支 16 人团队，由 `scripts/scaffold_team.py`
-按**一份蓝图一次批量生成**；面板列表在第 13 行被截断，所以截图只露出其中一部分。
-这支团队比本仓库建议的新团队规模要大 —— 见下面「真正要紧的设计规则」。
+*MiniMax Code 的「全部 Agent」面板。红框里是一支 16 人团队，一次创建出来的。
 图中的 Agent 名称已做脱敏，头像是真实产出。*
 
 ---
@@ -202,7 +200,7 @@ python minimax-code-team-builder/scripts/validate_team.py --blueprint examples/t
 2. **`description` 就是全部路由信号。** 每个都要写得能互相区分开。
 3. **会话只在 Agent 跑过一次之后才存在。** 第一个真实任务之前先预热。
 4. **名册要跟团队一起交付。** 运行时不会往编排器 prompt 里注入 Agent 名单 —— 名册得装成私有 Agent Skill。
-5. **角色控制在八个左右。** 再多，路由就不稳了，而且大部分时间都耗在交接上。
+5. **新团队的角色控制在八个左右。** 再多，路由就不稳了，而且大部分时间都耗在交接上。
 
 ## 质量
 

@@ -102,11 +102,8 @@ pinned down here, so the only judgement left is the role design.
 
 ![The 全部 Agent panel in MiniMax Code with a built team](docs/agents-panel.png)
 
-*The 全部 Agent panel in MiniMax Code. The red box is a 16-role team that
-`scripts/scaffold_team.py` wrote from one blueprint in a single run; the panel list is cut
-off after 13 rows, so the screenshot shows part of it. That team is larger than the size
-this repo recommends for a new team — see "Design rules that matter" below. The agent names
-are redacted here; the avatars are the real generated output.*
+*The 全部 Agent panel in MiniMax Code. The red box is a 16-role team, created in one build.
+The agent names are redacted here; the avatars are the real generated output.*
 
 ---
 
@@ -224,8 +221,8 @@ Full rules, the warm-up step and the hand-off block live in
    first real task.
 4. **Ship the roster with the team.** The runtime injects no agent catalogue into the
    orchestrator's prompt — install the roster as a private agent skill.
-5. **Keep it to roughly eight roles.** Past that, routing gets unreliable and hand-offs
-   dominate the work.
+5. **Start a new team at roughly eight roles.** Past that, routing gets unreliable and
+   hand-offs dominate the work.
 
 ## Quality
 
