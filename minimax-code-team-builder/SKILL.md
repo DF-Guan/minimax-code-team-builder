@@ -79,8 +79,7 @@ down here, so the only judgement left is the role design.
   relocated, so never hardcode it: read `MINIMAX_DATA_DIR` / `MAVIS_DATA_DIR` /
   `__MAVIS_RUNTIME_DATA_DIR`, or ask the user, and always pass `--data-dir` explicitly.
 - **Registration**: the native `mavis` tool, command `agent create` / `agent get` /
-  `agent list`. There is no HTTP API reachable from a shell; the local runtime serves it
-  over the desktop IPC bridge.
+  `agent list`. It is a runtime tool of the app, not a shell command.
 - **Not targeted**: hosting the team in a Plugin (a Plugin manifest carries skills, MCP
   servers and apps — not agents).
 
@@ -139,8 +138,9 @@ correct the starting point instead of describing it from scratch.
    `<dataDir>/agents/<slug>/avatar.<ext>`. The generator must be loaded before any
    `mcode-tools` call. Name each file after its **real** format — a `.png` request can come
    back as JPEG, and the runtime sniffs the bytes against the extension.
-   Reason: default avatars are a single letter; a roster of 16 letters is unreadable at a
-   glance. One symbol and one distinct hue per role fixes that.
+   Reason: when a custom agent has no avatar file the panel falls back to a single
+   letter, so a roster of them is unreadable at a glance. One symbol and one distinct hue
+   per role fixes that.
    Skip this step when the user does not want images, and never let it block the build.
 
    The generated icons are local files. If the same agents also exist in the account
@@ -277,7 +277,7 @@ Output: the skill proposes a role split from the purpose (data collection, analy
 decision memo), confirms it with the user in one line, then produces the same artifact set
 for that trio.
 
-Input: "帮我搭一支卖货的团队" — a request with no role list at all.
+Input: "帮我搭一支做数据分析的团队" — a request with no role list at all.
 
 Output: the same artifact set, with the role split proposed from the purpose and confirmed
 in one line before the build starts.

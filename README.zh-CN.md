@@ -33,7 +33,7 @@
 ```
 
 ```
-帮我搭一支卖货的团队
+帮我搭一支做数据分析的团队
 ```
 
 ```
@@ -91,9 +91,11 @@ Copy-Item -Recurse -Force .\minimax-code-team-builder\minimax-code-team-builder 
 
 ## 效果展示
 
-![一键生成后的 Agent 面板](docs/agents-panel.png)
+![MiniMax Code 的「全部 Agent」面板，团队已就位](docs/agents-panel.png)
 
-*MiniMax Code 的「全部 Agent」面板。红框里的内容全部由**一次请求**生成 —— 每个角色一张专属生成头像。
+*MiniMax Code 的「全部 Agent」面板。红框里是一支 16 人团队，由 `scripts/scaffold_team.py`
+按**一份蓝图一次批量生成**；面板列表在第 13 行被截断，所以截图只露出其中一部分。
+这支团队比本仓库建议的新团队规模要大 —— 见下面「真正要紧的设计规则」。
 图中的 Agent 名称已做脱敏，头像是真实产出。*
 
 ---
@@ -207,7 +209,9 @@ python minimax-code-team-builder/scripts/validate_team.py --blueprint examples/t
 - 通过 Mavis Skill linter（`lint-skill.js`）：frontmatter 合法、名字 kebab-case、无禁用文件、
   `references/` 链接全部可解析、正文未超行数上限。
 - 脚本每次改动都在临时数据目录上跑过；脚手架是幂等的，且会保留已有头像。
-- Skill 与「无 Skill 基线」做过真实任务对照评测；评测还纠正了本文档里被基线证伪的两处说法。
+- Skill 与「无 Skill 基线」在同一道构建请求上做过对照评测：基线组得自己从 app bundle 里把运行时
+  的解析器抽出来、自己手写 registry 行才能注册；用 Skill 的话，解析规则、registry 结构、名册和
+  头像都直接来自这个仓库。
 - **整套流程在真实 runtime 里端到端跑过**：脚手架 → 原生注册 → 生成头像 → 校验 → 名册 → 预热 →
   一次真实的同伴交接（`session send` + `sync: true`，拿到回执）。过程中暴露两个 bug，均已修：
   名册 Skill 的 frontmatter 名字与目录不一致导致**按名加载不了**；以及让 Agent 自报模型 / 上下文窗口 /
@@ -218,7 +222,7 @@ python minimax-code-team-builder/scripts/validate_team.py --blueprint examples/t
 
 - MiniMax Code 桌面端或 `mcode` CLI，带本机 runtime。
 - Python 3.9+（脚本用，无第三方依赖）；Node 18+（`npx` 入口用）。
-- 原生 `mavis` 工具负责注册与调度 —— 本机 runtime 通过桌面 IPC 桥提供这个 API，不开 TCP 端口。
+- 原生 `mavis` 工具负责注册与调度 —— 它是 App 自带的 runtime 工具，不是 shell 命令。
 - 登录账号 —— 只有想同时把生成的头像推到 Web / 账号名册时才需要
   （`scripts/push_cloud_avatars.py`）。
 

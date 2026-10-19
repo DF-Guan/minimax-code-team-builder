@@ -117,7 +117,7 @@ An agent exists as **two independent records**, and they do not sync between eac
 | | Local collection | Account roster |
 | --- | --- | --- |
 | Where it lives | `<dataDir>/agents/<slug>/agent.md` plus a local index row | the account side, behind the web product |
-| Avatar | a **local file** in the agent directory, served by `/agent/<slug>/identity/avatar` | a **remote URL** the UI renders directly |
+| Avatar | a **local file** in the agent directory, served by `GET /agent/<slug>/identity/avatar` — that route 404s when the file is missing | a **remote URL** the UI renders directly |
 | Display name / description | read from the `agent.md` frontmatter | the account's own copy |
 | Dispatch | this is the one the local runtime spawns and hands work to | a different surface |
 | Other desktop clients | **not reached** — every install keeps its own collection | the account copy is what the web side shows |
@@ -130,9 +130,9 @@ Three consequences worth stating in the hand-over:
    **blueprint**: copy it to the other machine and re-run the scaffolder there, or copy
    the agent directories across.
 2. **The generated icons are local.** The account copy of the same agent keeps its own
-   avatar record, so it falls back to the default letter avatar until someone sets it.
-   That is what the account-side push in `scripts/push_cloud_avatars.py` fixes — but it
-   changes the **web/account** copy only, and still does not populate a desktop install.
+   avatar record, so it shows the account's own default until someone sets it. That is what
+   the account-side push in `scripts/push_cloud_avatars.py` fixes — but it changes the
+   **web/account** copy only, and still does not populate a desktop install.
 3. **Which copy the desktop app uses.** The desktop panel and the `task` dispatcher work
    off the local collection. That is the copy that matters for day-to-day use.
 

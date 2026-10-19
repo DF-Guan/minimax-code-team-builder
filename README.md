@@ -33,7 +33,7 @@ No commands, no files, no jargon. Ask in whatever words come to mind:
 ```
 
 ```
-帮我搭一支卖货的团队
+帮我搭一支做数据分析的团队
 ```
 
 ```
@@ -100,11 +100,13 @@ pinned down here, so the only judgement left is the role design.
 
 ## See it
 
-![The Agents panel in MiniMax Code after a one-click build](docs/agents-panel.png)
+![The 全部 Agent panel in MiniMax Code with a built team](docs/agents-panel.png)
 
-*The 全部 Agent panel in MiniMax Code. Everything inside the red box came out of one
-request — one distinct generated avatar per role. The agent names are redacted here; the
-avatars are the real output.*
+*The 全部 Agent panel in MiniMax Code. The red box is a 16-role team that
+`scripts/scaffold_team.py` wrote from one blueprint in a single run; the panel list is cut
+off after 13 rows, so the screenshot shows part of it. That team is larger than the size
+this repo recommends for a new team — see "Design rules that matter" below. The agent names
+are redacted here; the avatars are the real generated output.*
 
 ---
 
@@ -231,8 +233,10 @@ Full rules, the warm-up step and the hand-off block live in
   name, no forbidden files, all `references/` links resolve, body under the line limit.
 - The scripts are exercised against a scratch data directory on every change; the
   scaffolder is idempotent and preserves an existing avatar.
-- The skill is eval-tested against a no-skill baseline on a realistic build request. The
-  eval also corrected two claims in this documentation that the baseline disproved.
+- The skill was eval-tested against a no-skill baseline on the same build request. The
+  baseline arm had to extract the runtime's parser out of the app bundle and hand-write
+  registry rows to register anything; the skill arm got the parser rules, the registry
+  shape, the roster and the avatars from this repo.
 - **The whole flow was run end to end in a live runtime**: scaffold → native registration →
   generated avatars → validator → roster skill → warm-up → a real peer hand-off
   (`session send` with `sync: true`, reply received). Two bugs surfaced that way and are
@@ -247,8 +251,8 @@ Full rules, the warm-up step and the hand-off block live in
 
 - MiniMax Code Desktop or the `mcode` CLI, with a local runtime.
 - Python 3.9+ (no third-party packages) for the scripts; Node 18+ for the `npx` entry.
-- The native `mavis` tool for registration and dispatch — the local runtime serves its API
-  over the desktop IPC bridge and does not expose it on a TCP port.
+- The native `mavis` tool for registration and dispatch. It is a runtime tool of the app,
+  not a shell command.
 - A signed-in account, if you also want the generated avatars pushed to the web/account
   roster via `scripts/push_cloud_avatars.py`.
 
