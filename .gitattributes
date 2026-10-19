@@ -1,0 +1,11 @@
+# Normalise text files to LF in the repository and in the working tree, so the
+# Python scripts behave identically on Windows, macOS and Linux.
+* text=auto eol=lf
+
+# Images stay byte-exact.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary

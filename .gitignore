@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+*.bak-*
+.venv/
+venv/
+.DS_Store
+Thumbs.db
+avatars-*.json
+contact_sheet.png
+downloaded/
