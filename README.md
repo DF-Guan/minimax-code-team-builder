@@ -187,6 +187,15 @@ Full rules, the warm-up step and the handoff block live in
   scaffolder is idempotent and preserves an existing avatar.
 - The skill is eval-tested against a no-skill baseline on a realistic build request. The
   eval also corrected two claims in this documentation that the baseline disproved.
+- **The whole flow was run end to end in a live runtime**: scaffold → native registration →
+  generated avatars → validator → roster skill → warm-up → a real peer hand-off
+  (`session send` with `sync: true`, reply received). Two bugs surfaced that way and are
+  fixed: a roster skill whose frontmatter name did not match its directory could not be
+  loaded by name, and an agent asked to report its own model / context window / effort
+  answers from guesswork — the runtime's frozen agent definition is the authoritative
+  record, not the transcript.
+- A fresh `git clone` passes the linter and the script tests, so the published repo is
+  verified as a clone, not just as a working copy.
 
 ## Requirements
 
