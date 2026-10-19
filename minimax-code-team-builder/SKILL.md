@@ -6,9 +6,10 @@ description: |
   wiring that makes the agents hand work to each other, and the roster the orchestrator reads.
   Use this skill in MiniMax Code and in the MiniMax Inside Code beta when the user says "build
   an agent team", "batch create subagents", "create several agents for me", "make these agents
-  work together", "组一个 Agent 团队", "批量建 Subagent", or asks for a reusable recipe for
-  standing up a new roster of specialists. Do NOT use it for a single one-off agent (use
-  create-agent), for editing an existing agent's prompt, or for general prompt-writing advice.
+  work together", "组一个 Agent 团队", "批量建 Subagent", "建个小组", "搭一支团队",
+  "发个 ai agent 对话", or asks for a reusable recipe for standing up a new roster of
+  specialists. Do NOT use it for a single one-off agent (use create-agent), for editing an
+  existing agent's prompt, or for general prompt-writing advice.
 descriptions:
   zh-Hans: |
     在 MiniMax Code / MiniMax Inside Code 内测版里，用一句自然语言需求批量建立一支能互相协作的
@@ -275,6 +276,22 @@ Input: "给我搭一个看数据做决策的团队。"
 Output: the skill proposes a role split from the purpose (data collection, analysis,
 decision memo), confirms it with the user in one line, then produces the same artifact set
 for that trio.
+
+Input: "帮我搭一支卖货的团队" — a request with no role list at all.
+
+Output: the same artifact set, with the role split proposed from the purpose and confirmed
+in one line before the build starts.
+
+Input: "发个 ai agent 对话，角色是 审校 / 翻译 / 发布"
+
+Output: the three named roles become the blueprint's agents; the skill still adds the
+owner / non-owner scopes, the shared rules and the hand-off contract that bare role names
+leave out.
+
+Input: "我想要三个 agent：一个查、一个写、一个查错"
+
+Output: the same, with the third role's "查错" turned into an explicit review role that
+owns verification and hands nothing to itself.
 
 ## Windows (win32) platform notes
 

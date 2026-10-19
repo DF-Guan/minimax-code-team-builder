@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: skill + scripts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Check the skill package is self-consistent
+        run: python tests/check_skill.py
+
+      - name: Run the script test suite
+        run: python tests/sandbox_test.py
+
+      - name: Check the npx entry point
+        run: |
+          node bin/mcode-team-builder.js --help
+          node bin/mcode-team-builder.js --init "$RUNNER_TEMP/team"
+          node bin/mcode-team-builder.js --blueprint "$RUNNER_TEMP/team/team.json" --data-dir "$RUNNER_TEMP/data"
+
+      - name: Verify the README language pair
+        run: |
+          test -f README.md
+          test -f README.zh-CN.md
+          grep -q "README.zh-CN.md" README.md
+          grep -q "README.md" README.zh-CN.md

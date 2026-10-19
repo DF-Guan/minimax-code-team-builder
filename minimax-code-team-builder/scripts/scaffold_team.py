@@ -156,7 +156,7 @@ def main() -> int:
             failed.append((slug, repr(exc)))
 
     verb = "would write" if args.dry_run else "written"
-    print(f"data dir : {data_dir}")
+    print(f"data dir : {data_dir or '(not resolved - dry run)'}")
     print(f"agents   : {len(agents)}")
     print(f"{verb} : {len(written)}   failed: {len(failed)}")
     for slug, state, size in written:

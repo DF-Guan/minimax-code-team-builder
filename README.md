@@ -4,29 +4,104 @@
 
 <h1 align="center">minimax-code-team-builder</h1>
 
+[![CI](https://github.com/DF-Guan/minimax-code-team-builder/actions/workflows/ci.yml/badge.svg)](https://github.com/DF-Guan/minimax-code-team-builder/actions/workflows/ci.yml)
+
+
+<p align="center">
+  <a href="README.md">English</a> · <a href="README.zh-CN.md">简体中文</a>
+</p>
+
 <p align="center">
   Batch-build collaborating <b>subagent teams</b> in <b>MiniMax Code</b> and the
   <b>MiniMax Inside Code</b> beta — from one plain-language sentence.
 </p>
 
-**Say it in one sentence. Get a working, illustrated, validated agent team in MiniMax Code.**
+---
 
-> "帮我建一个负责产品发布的团队：一个负责人拆任务，一个写文案，一个做合规检查。"
+## Say it like this
 
-That is the whole interface. The skill turns the request into a blueprint, writes every
-`agent.md` to the runtime's exact contract, registers the agents natively, gives each one a
-distinct generated avatar, validates the result against the runtime's own parser, installs
-the roster the orchestrator reads, and warms the team up so hand-offs have somewhere to
-land. The user never touches a frontmatter key and never has to read runtime source.
+### 1 · In MiniMax Code — just type it
 
-The name says what it does and who it is for: `minimax-code` — the two product surfaces it
-targets, MiniMax Code and the MiniMax Inside Code beta; `team-builder` — it builds a team
-of subagents, not a single agent.
+No commands, no files, no jargon. Ask in whatever words come to mind:
+
+```
+建个三人小组：一个查资料，一个分析，一个写结论
+```
+
+```
+发个 ai agent 对话，角色是 审校 / 翻译 / 发布
+```
+
+```
+帮我搭一支卖货的团队
+```
+
+```
+I need three agents: one researches, one writes, one checks.
+```
+
+```
+Spawn a small team that can triage bugs.
+```
+
+The skill asks you at most one short round of questions, then builds the whole thing:
+every `agent.md` written to the runtime's exact contract, every agent registered so it
+shows up in **插件·技能 → 管理 → Agents**, a distinct generated avatar per role, a
+validation pass, the roster the orchestrator reads, and a warm-up so hand-offs have
+somewhere to land.
+
+### 2 · In your terminal — one command
+
+```bash
+npx github:DF-Guan/minimax-code-team-builder --init          # write a starter team.json
+npx github:DF-Guan/minimax-code-team-builder --blueprint team.json
+```
+
+The terminal path covers the reproducible half — blueprint → `agent.md` files →
+validation. The interactive half (registration, avatars, roster, warm-up) is what the
+skill does in chat. Use the terminal when the blueprint belongs in version control or
+the build runs from CI.
+
+### 3 · As a skill — copy the folder
+
+The skill is a plain directory. Copy it into the MCode user-skill root, which lives
+inside the runtime data directory — the same folder that holds `agents/`:
+
+| Platform | Skills root |
+| --- | --- |
+| Windows | `<dataDir>\skills\` |
+| macOS / Linux | `~/.minimax/skills/` |
+
+```powershell
+git clone https://github.com/DF-Guan/minimax-code-team-builder.git
+Copy-Item -Recurse -Force .\minimax-code-team-builder\minimax-code-team-builder "<dataDir>\skills\minimax-code-team-builder"
+```
+
+The data directory is relocatable, so resolve it rather than assuming a fixed path —
+`MINIMAX_DATA_DIR` / `MAVIS_DATA_DIR` point at it, and the app shows it in its
+settings. Restart MCode afterwards.
+
+---
+
+## What you get
+
+| | |
+| --- | --- |
+| **A real team** | One `agent.md` per role, written to the runtime's exact contract — not a draft you have to fix |
+| **Registered** | Every agent appears in **插件·技能 → 管理 → Agents**, dispatchable by name |
+| **Distinguishable** | A distinct generated avatar per role, so the roster is scannable instead of a wall of letters |
+| **Validated** | A check that mirrors the runtime's own parser, so "green" means the runtime will accept every file |
+| **Wired** | A private roster skill the orchestrator reads — the runtime injects no agent catalogue into any prompt |
+| **Connected** | A warm-up pass plus a hand-off contract, so members can actually pass work to each other |
+
+You never edit a frontmatter key, never guess a model id, and never have to read
+runtime source. That is the point of this skill: the runtime specifics are already
+pinned down here, so the only judgement left is the role design.
 
 ## Where the team lands
 
-The team is built in the environment of the machine where the request is made, and then it
-is an ordinary part of the product *on that machine*:
+The team is built in the environment of the machine where the request is made, and then
+it is an ordinary part of the product *on that machine*:
 
 - it shows up in **插件·技能 → 管理 → Agents**, next to the built-in agents, exactly as if
   it had been created through the UI;
@@ -35,7 +110,7 @@ is an ordinary part of the product *on that machine*:
 **It does not travel to other desktop installs.** Every client keeps its own agent
 collection under `<dataDir>/agents/`, and the local agent service never talks to the
 account, so a team built on one machine is not present on the next one. The portable
-artifact is the **blueprint**: copy `team.json` over and re-run the scaffolder there, or
+artifact is the **blueprint**: copy `team.json` over and re-run the builder there, or
 copy the agent directories across.
 
 The **web / account roster is a separate store** — that is the side the account-level
@@ -75,73 +150,34 @@ minimax-code-team-builder/
 │       ├── scaffold_team.py     # blueprint → agent.md files (idempotent)
 │       ├── validate_team.py     # check a collection against the runtime's rules
 │       ├── avatar_batch.py      # blueprint → image-generation requests
-│       └── build_roster_skill.py# blueprint → the orchestrator's private roster skill
-├── icon.png                     # the project logo
+│       ├── build_roster_skill.py# blueprint → the orchestrator's private roster skill
+│       └── push_cloud_avatars.py # local avatars → the account/web roster
+├── bin/mcode-team-builder.js   # the npx entry point
 ├── examples/                    # ready-to-run blueprints for the fast path
 │   ├── team.example.json        # a three-role release-documentation team
 │   ├── team.research.json       # a three-role research team
 │   └── team.content.json        # a three-role content team
 ├── tests/sandbox_test.py        # script tests: dry-run, idempotency, negative cases
+├── package.json
 ├── README.md
+├── README.zh-CN.md
 └── LICENSE
 ```
-
-## Install
-
-The skill is a plain directory. Copy it into the MCode user-skill root, which lives inside
-the runtime data directory — the same folder that holds `agents/`:
-
-| Platform | Skills root |
-| --- | --- |
-| Windows | `<dataDir>\skills\` |
-| macOS / Linux | `~/.minimax/skills/` |
-
-The data directory is relocatable, so resolve it rather than assuming a fixed path — the
-`MINIMAX_DATA_DIR` / `MAVIS_DATA_DIR` environment variables point at it, and the app shows
-it in its settings.
-
-```powershell
-Copy-Item -Recurse -Force .\minimax-code-team-builder "<dataDir>\skills\minimax-code-team-builder"
-```
-
-Restart MCode. The skill then activates on phrases like *"build an agent team"*,
-*"batch create subagents"*, *"create several agents for me"*, *"make these agents work
-together"*, *"组一个 Agent 团队"*, *"批量建 Subagent"* or *"帮我建几个 Agent"*.
-
-## Try it
-
-```
-帮我建一个负责产品发布的团队：一个负责人拆任务，一个写文案，一个做合规检查。
-```
-
-```
-Build me a research team: one gathers sources, one analyses them, one writes the memo.
-```
-
-```
-I need a content team — someone plans topics, someone drafts, someone edits.
-```
-
-```
-批量建一组 Subagent：一个做检索，一个做分析，一个做审校。
-```
-
-Or skip the conversation entirely and ask for a template by name: *"给我一个 research 团队的模板"*.
 
 ## Use the scripts directly
 
 The scripts are standalone and dependency-free — useful if you drive the build from CI or
 another tool, or if you want the blueprint under version control.
 
-```powershell
+```bash
 # 1. plan
-python minimax-code-team-builder\scripts\scaffold_team.py --blueprint .\examples\team.example.json --dry-run
+python minimax-code-team-builder/scripts/scaffold_team.py --blueprint examples/team.example.json --dry-run
 
 # 2. write
-python minimax-code-team-builder\scripts\scaffold_team.py --blueprint .\examples\team.example.json --data-dir <dataDir>
+python minimax-code-team-builder/scripts/scaffold_team.py --blueprint examples/team.example.json --data-dir <dataDir>
 
 # 3. check
-python minimax-code-team-builder\scripts\validate_team.py --blueprint .\examples\team.example.json --data-dir <dataDir>
+python minimax-code-team-builder/scripts/validate_team.py --blueprint examples/team.example.json --data-dir <dataDir>
 ```
 
 `--data-dir` is the MCode data directory — the folder that contains `agents/`. The
@@ -164,7 +200,7 @@ user ──▶ root agent (mavis)
 | Root interactive agent | yes | yes |
 | A custom agent | no | yes, to a peer that already has a session |
 
-Full rules, the warm-up step and the handoff block live in
+Full rules, the warm-up step and the hand-off block live in
 `minimax-code-team-builder/references/collaboration.md`.
 
 ## Design rules that matter
@@ -200,7 +236,7 @@ Full rules, the warm-up step and the handoff block live in
 ## Requirements
 
 - MiniMax Code Desktop or the `mcode` CLI, with a local runtime.
-- Python 3.9+ (no third-party packages).
+- Python 3.9+ (no third-party packages) for the scripts; Node 18+ for the `npx` entry.
 - The native `mavis` tool for registration and dispatch — the local runtime serves its API
   over the desktop IPC bridge and does not expose it on a TCP port.
 - A signed-in account, if you also want the generated avatars pushed to the web/account

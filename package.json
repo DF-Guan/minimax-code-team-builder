@@ -1,0 +1,37 @@
+{
+  "name": "minimax-code-team-builder",
+  "version": "1.0.0",
+  "description": "Build a collaborating team of MiniMax Code subagents from one plain-language request: role design, agent.md generation, native registration, avatars, validation, and the dispatch wiring that makes them hand work to each other.",
+  "license": "MIT",
+  "keywords": [
+    "minimax-code",
+    "mcode",
+    "ai-agents",
+    "subagents",
+    "agent-team",
+    "agent-skill",
+    "minimax"
+  ],
+  "bin": {
+    "mcode-team-builder": "bin/mcode-team-builder.js"
+  },
+  "files": [
+    "bin/",
+    "minimax-code-team-builder/",
+    "examples/",
+    "README.md",
+    "README.zh-CN.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DF-Guan/minimax-code-team-builder.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DF-Guan/minimax-code-team-builder/issues"
+  },
+  "homepage": "https://github.com/DF-Guan/minimax-code-team-builder#readme"
+}

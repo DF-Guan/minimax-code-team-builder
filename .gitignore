@@ -8,3 +8,5 @@ Thumbs.db
 avatars-*.json
 contact_sheet.png
 downloaded/
+
+*.tgz
