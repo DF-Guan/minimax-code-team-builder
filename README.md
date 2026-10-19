@@ -98,6 +98,16 @@ You never edit a frontmatter key, never guess a model id, and never have to read
 runtime source. That is the point of this skill: the runtime specifics are already
 pinned down here, so the only judgement left is the role design.
 
+## See it
+
+![The Agents panel in MiniMax Code after a one-click build](docs/agents-panel.png)
+
+*The 全部 Agent panel in MiniMax Code. Everything inside the red box came out of one
+request — one distinct generated avatar per role. The agent names are redacted here; the
+avatars are the real output.*
+
+---
+
 ## Where the team lands
 
 The team is built in the environment of the machine where the request is made, and then

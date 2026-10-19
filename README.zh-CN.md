@@ -89,6 +89,15 @@ Copy-Item -Recurse -Force .\minimax-code-team-builder\minimax-code-team-builder 
 你永远不用碰一个 frontmatter 键、不用猜模型 id、不用去读运行时源码。
 这正是这个 Skill 的价值：运行时的坑已经被钉死在这儿了，剩下的判断只有「角色怎么分」。
 
+## 效果展示
+
+![一键生成后的 Agent 面板](docs/agents-panel.png)
+
+*MiniMax Code 的「全部 Agent」面板。红框里的内容全部由**一次请求**生成 —— 每个角色一张专属生成头像。
+图中的 Agent 名称已做脱敏，头像是真实产出。*
+
+---
+
 ## 团队落在哪
 
 团队在**发起请求的那台机器**的环境里构建，然后就是那台机器上产品的一部分：

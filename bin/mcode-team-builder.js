@@ -78,12 +78,15 @@ function main() {
   const opts = parseArgs(process.argv.slice(2));
 
   if (opts.init) {
-    const target = path.join(opts.initDir || process.cwd(), 'team.json');
+    const dir = opts.initDir || process.cwd();
+    const target = path.join(dir, 'team.json');
     const source = path.join(ROOT, 'examples', 'team.example.json');
     if (fs.existsSync(target)) {
       console.error(`refusing to overwrite existing ${target}`);
       return 1;
     }
+    // The destination directory may not exist yet - copyFileSync does not create it.
+    fs.mkdirSync(dir, { recursive: true });
     fs.copyFileSync(source, target);
     console.log(`wrote starter blueprint -> ${target}`);
     console.log('edit it, then run: mcode-team-builder --blueprint team.json');

@@ -125,6 +125,24 @@ with tempfile.TemporaryDirectory(prefix="team_builder_test_") as tmp:
             if "failed: 0" not in proc.stdout:
                 failures.append(f"example-{example}")
 
+    print("\n== 9. the npx entry point: --init into a directory that does not exist ==")
+    node = shutil.which("node")
+    if not node:
+        print("  (node is not on PATH - skipped)")
+    else:
+        with tempfile.TemporaryDirectory(prefix="mctb_init_") as tmp2:
+            target = os.path.join(tmp2, "does", "not", "exist", "team.json")
+            proc = subprocess.run(
+                [node, os.path.join(REPO, "bin", "mcode-team-builder.js"), "--init",
+                 os.path.dirname(target)],
+                capture_output=True, text=True, encoding="utf-8",
+            )
+            if proc.returncode == 0 and os.path.isfile(target):
+                print("  [ok] --init creates the missing target directory")
+            else:
+                failures.append("init-missing-dir")
+                print("  [FAIL] --init into a missing directory:", proc.stderr.strip()[:200])
+
 print("\n" + "=" * 50)
 if failures:
     print("FAILED:", failures)
